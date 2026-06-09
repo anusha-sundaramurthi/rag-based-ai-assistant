@@ -7,14 +7,22 @@ from pydantic import BaseModel
 from src.ingest import ingest_pdf
 from src.vectorstores import init_qdrant, clear_qdrant
 from src.generator import generate_answer, clear_memory
+import asyncio
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("Initializing Qdrant database...")
-    init_qdrant()
-    print("Database initialization complete.")
+    # Run Qdrant init in background so port binds immediately
+    asyncio.create_task(_init_db())
     yield
+
+async def _init_db():
+    try:
+        print("Initializing Qdrant database...")
+        init_qdrant()
+        print("Database initialization complete.")
+    except Exception as e:
+        print(f"Qdrant init error: {e}")
 
 app = FastAPI(lifespan=lifespan)
 
