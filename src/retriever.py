@@ -3,8 +3,8 @@ from src.embeddings import get_query_embedding   # ← uses input_type='query'
 from src.config import COLLECTION_NAME
 from src.vectorstores import get_qdrant_client
 
-TOP_SCORE_THRESHOLD = 0.70
-MIN_CHUNK_SCORE     = 0.70
+TOP_SCORE_THRESHOLD = 0.60
+MIN_CHUNK_SCORE     = 0.60
 
 
 def normalize_query(query: str) -> str:
@@ -56,7 +56,7 @@ def retrieve_docs(query: str, top_k: int = 10) -> list[str]:
         print(f"[Retriever] Best score below threshold — no relevant context")
         return []
 
-    keep_threshold = max(best_score * 0.85, MIN_CHUNK_SCORE)
+    keep_threshold = max(best_score * 0.80, MIN_CHUNK_SCORE)
 
     relevant = []
     for hit in hits:
