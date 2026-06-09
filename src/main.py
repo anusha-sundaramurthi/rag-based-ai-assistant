@@ -1,8 +1,6 @@
 from fastapi import FastAPI, UploadFile
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from src.ingest import ingest_pdf
 from src.vectorstores import init_qdrant, clear_qdrant
@@ -38,7 +36,7 @@ class QueryRequest(BaseModel):
     query:       str
     session_id:  str  = "default"
     use_general: bool = False
-    language:    str  = "English"
+    language:    str  = "English"       # ← NEW: language field
 
 
 @app.post("/ask")
@@ -47,7 +45,7 @@ async def ask_question(req: QueryRequest):
         req.query,
         session_id=req.session_id,
         use_general=req.use_general,
-        language=req.language
+        language=req.language          # ← pass language to generator
     )
     return {
         "response":        result["answer"],

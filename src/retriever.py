@@ -1,13 +1,28 @@
 import re
-from src.embeddings import get_query_embedding   # ← uses input_type='query'
+from src.embeddings import get_embeddings
 from src.config import COLLECTION_NAME
 from src.vectorstores import get_qdrant_client
 
-TOP_SCORE_THRESHOLD = 0.50
-MIN_CHUNK_SCORE     = 0.50
+TOP_SCORE_THRESHOLD = 0.70
+
+# Minimum absolute score every individual chunk must meet.
+# Prevents low-scoring chunks from a WRONG PDF sneaking in
+# just because they're within 85% of a mediocre best score.
+MIN_CHUNK_SCORE = 0.70
 
 
 def normalize_query(query: str) -> str:
+    """
+    Normalize common spacing/spelling variants so the embedding
+    model sees a clean, consistent string.
+
+    Examples
+    --------
+    'srilanka'    → 'sri lanka'
+    'newzealand'  → 'new zealand'
+    'southafrica' → 'south africa'
+    'uae'         → 'united arab emirates'
+    """
     replacements = {
         r'\bsrilanka\b':    'sri lanka',
         r'\bnewzealand\b':  'new zealand',
@@ -24,6 +39,7 @@ def normalize_query(query: str) -> str:
     normalized = query.lower().strip()
     for pattern, replacement in replacements.items():
         normalized = re.sub(pattern, replacement, normalized, flags=re.IGNORECASE)
+
     if normalized != query.lower().strip():
         print(f"[Retriever] Query normalized: '{query}' → '{normalized}'")
     return normalized
@@ -32,9 +48,10 @@ def normalize_query(query: str) -> str:
 def retrieve_docs(query: str, top_k: int = 10) -> list[str]:
     client = get_qdrant_client()
 
+    # ── Step 1: Normalize query spelling ─────────────────
     normalized_query = normalize_query(query)
-    # Use query-specific embedding for better retrieval accuracy
-    query_vector = get_query_embedding(normalized_query)
+
+    query_vector = get_embeddings([normalized_query])[0]
 
     search_result = client.query_points(
         collection_name=COLLECTION_NAME,
@@ -43,20 +60,29 @@ def retrieve_docs(query: str, top_k: int = 10) -> list[str]:
         with_payload=True
     )
 
+    print("Retriever module loaded successfully.")
+
     hits = search_result.points
 
     if not hits:
         print("[Retriever] No results found in Qdrant.")
         return []
 
+    # ── Step 2: Check best score against threshold ────────
     best_score = hits[0].score
     print(f"[Retriever] Best score: {best_score:.3f} | Threshold: {TOP_SCORE_THRESHOLD}")
 
     if best_score < TOP_SCORE_THRESHOLD:
-        print(f"[Retriever] Best score below threshold — no relevant context")
+        print(f"[Retriever] Best score {best_score:.3f} below threshold — no relevant context")
         return []
 
-    keep_threshold = max(best_score * 0.80, MIN_CHUNK_SCORE)
+    # ── Step 3: Keep chunks that pass BOTH filters ────────
+    # Filter 1 — relative : within 85% of best score
+    # Filter 2 — absolute : must also be >= MIN_CHUNK_SCORE
+    # Both must pass. This prevents chunks from a WRONG PDF
+    # (e.g. india.pdf for a Sri Lanka query) from slipping
+    # through just because they're close to a mediocre best.
+    keep_threshold = max(best_score * 0.85, MIN_CHUNK_SCORE)
 
     relevant = []
     for hit in hits:

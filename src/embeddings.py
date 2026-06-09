@@ -1,33 +1,11 @@
 from openai import OpenAI
-from src.config import NVIDIA_API_KEY, NVIDIA_BASE_URL, EMBEDDING_MODEL
+from src.config import OPENAI_API_KEY
 
-client = OpenAI(
-    api_key=NVIDIA_API_KEY,
-    base_url=NVIDIA_BASE_URL
-)
+client = OpenAI(api_key=OPENAI_API_KEY)
 
-def get_embeddings(texts: list[str]) -> list[list[float]]:
-    """
-    Uses NVIDIA NIM's nv-embedqa-e5-v5 model (free tier).
-    The model returns 1024-dim vectors.
-    input_type must be 'query' for retrieval queries and
-    'passage' for documents being indexed.
-    """
+def get_embeddings(texts):
     response = client.embeddings.create(
         input=texts,
-        model=EMBEDDING_MODEL,
-        encoding_format="float",
-        extra_body={"input_type": "passage", "truncate": "END"}
+        model="text-embedding-ada-002"
     )
     return [item.embedding for item in response.data]
-
-
-def get_query_embedding(query: str) -> list[float]:
-    """Embed a retrieval query (uses input_type='query')."""
-    response = client.embeddings.create(
-        input=[query],
-        model=EMBEDDING_MODEL,
-        encoding_format="float",
-        extra_body={"input_type": "query", "truncate": "END"}
-    )
-    return response.data[0].embedding
