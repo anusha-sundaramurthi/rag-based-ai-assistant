@@ -1,6 +1,5 @@
 from fastapi import FastAPI, UploadFile
 from contextlib import asynccontextmanager
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from src.ingest import ingest_pdf
 from src.vectorstores import init_qdrant, clear_qdrant
