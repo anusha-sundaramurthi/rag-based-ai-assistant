@@ -100,6 +100,7 @@ def rewrite_query(raw_query: str, chat_history_text: str) -> str:
     return rewritten
 
 # ── 5. Prompts (REMOVED MORNING/AFTERNOON/EVENING FORMAT) ─
+context_block = f"\nBUSINESS CONTEXT:\n{business_context}\n" if business_context else ""
 PDF_ANSWER_SYSTEM_PROMPT = """You are an expert and friendly AI Travel Assistant.
 Use the following travel guide context to answer the user's question.
 
@@ -265,7 +266,9 @@ def generate_answer(
     query:       str,
     session_id:  str  = "default",
     use_general: bool = False,
-    language:    str  = "English"  # No more "auto" option
+    language:    str  = "English", # No more "auto" option
+    collection_name:  str  = None,
+    business_context: str  = ""      
 ) -> dict:
     """RAG pipeline with language support"""
     
@@ -352,7 +355,7 @@ def generate_answer(
 
     print(f"[Generator] PDF context found for: '{original_query}'")
 
-    system_prompt = PDF_ANSWER_SYSTEM_PROMPT.format(
+    system_prompt = context_block + PDF_ANSWER_SYSTEM_PROMPT.format(
         language_instruction=lang_instruction
     )
     prompt = ChatPromptTemplate.from_messages([
