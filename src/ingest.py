@@ -11,16 +11,11 @@ from src.vectorstores import get_qdrant_client, init_qdrant
 
 
 async def ingest_pdf(file: UploadFile, collection_name: str = None):
-    """
-    Ingest a PDF into a specific Qdrant collection.
-    If collection_name is None, uses the default from config.
-    """
     target_collection = collection_name or COLLECTION_NAME
 
     print(f"📄 Processing PDF file: {file.filename}")
     content = await file.read()
 
-    # ── Load PDF ──────────────────────────────────────────
     docs = []
     pdf  = fitz.open(stream=content, filetype="pdf")
     page_count = len(pdf)
@@ -38,7 +33,6 @@ async def ingest_pdf(file: UploadFile, collection_name: str = None):
     finally:
         pdf.close()
 
-    # ── Chunk ─────────────────────────────────────────────
     print("✂️ Splitting document into chunks...")
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
@@ -48,24 +42,18 @@ async def ingest_pdf(file: UploadFile, collection_name: str = None):
     chunks = splitter.split_documents(docs)
     print(f"📚 Created {len(chunks)} text chunks")
 
-    # ── Embed ─────────────────────────────────────────────
-    
     print("🧮 Generating embeddings...")
-try:
-    texts      = [chunk.page_content for chunk in chunks]
-    embeddings = get_embeddings(texts)
-    print(f"✅ Generated {len(embeddings)} embeddings")
-except Exception as e:
-    print(f"❌ Embedding error: {type(e).__name__}: {e}")
-    raise
+    try:
+        texts      = [chunk.page_content for chunk in chunks]
+        embeddings = get_embeddings(texts)
+        print(f"✅ Generated {len(embeddings)} embeddings")
+    except Exception as e:
+        print(f"❌ Embedding error: {type(e).__name__}: {e}")
+        raise
 
-    # ── Ensure collection exists ──────────────────────────
     init_qdrant(target_collection)
     client = get_qdrant_client()
 
-    # ── Build points with UUID-based IDs ─────────────────
-    # UUID integers are always unique — avoids ID collision
-    # on fresh or existing collections
     points = []
     for chunk, embedding in zip(chunks, embeddings):
         point_id = int(_uuid.uuid4().int >> 64)
@@ -81,7 +69,6 @@ except Exception as e:
             )
         )
 
-    # ── Upload in batches of 100 ──────────────────────────
     print(f"⬆️ Uploading {len(points)} documents to '{target_collection}'...")
     batch_size = 100
     for i in range(0, len(points), batch_size):
