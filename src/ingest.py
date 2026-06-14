@@ -1,5 +1,6 @@
 from fastapi import UploadFile
 import fitz  # PyMuPDF
+import uuid as _uuid
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from qdrant_client.models import PointStruct
@@ -46,25 +47,26 @@ async def ingest_pdf(file: UploadFile, collection_name: str = None):
     )
     chunks = splitter.split_documents(docs)
     print(f"📚 Created {len(chunks)} text chunks")
-    print(chunks)
 
     # ── Embed ─────────────────────────────────────────────
     print("🧮 Generating embeddings...")
     texts      = [chunk.page_content for chunk in chunks]
     embeddings = get_embeddings(texts)
+    print(f"✅ Generated {len(embeddings)} embeddings")
 
     # ── Ensure collection exists ──────────────────────────
     init_qdrant(target_collection)
     client = get_qdrant_client()
 
-    # ── Get current count to avoid ID collisions ──────────
-    count  = client.count(collection_name=target_collection).count
+    # ── Build points with UUID-based IDs ─────────────────
+    # UUID integers are always unique — avoids ID collision
+    # on fresh or existing collections
     points = []
-
-    for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+    for chunk, embedding in zip(chunks, embeddings):
+        point_id = int(_uuid.uuid4().int >> 64)
         points.append(
             PointStruct(
-                id=count + i + 1,
+                id=point_id,
                 vector=embedding,
                 payload={
                     "text":   chunk.page_content,
@@ -74,8 +76,8 @@ async def ingest_pdf(file: UploadFile, collection_name: str = None):
             )
         )
 
-    # ── Upload in batches ─────────────────────────────────
-    print(f"⬆️ Uploading {len(points)} documents to collection '{target_collection}'...")
+    # ── Upload in batches of 100 ──────────────────────────
+    print(f"⬆️ Uploading {len(points)} documents to '{target_collection}'...")
     batch_size = 100
     for i in range(0, len(points), batch_size):
         client.upsert(
@@ -83,5 +85,6 @@ async def ingest_pdf(file: UploadFile, collection_name: str = None):
             points=points[i: i + batch_size],
             wait=True
         )
+        print(f"   Uploaded batch {i // batch_size + 1}")
 
     print(f"✅ Upload complete! Added {len(chunks)} chunks from {page_count} pages")
