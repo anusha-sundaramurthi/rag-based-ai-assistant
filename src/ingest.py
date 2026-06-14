@@ -49,10 +49,15 @@ async def ingest_pdf(file: UploadFile, collection_name: str = None):
     print(f"📚 Created {len(chunks)} text chunks")
 
     # ── Embed ─────────────────────────────────────────────
+    
     print("🧮 Generating embeddings...")
+try:
     texts      = [chunk.page_content for chunk in chunks]
     embeddings = get_embeddings(texts)
     print(f"✅ Generated {len(embeddings)} embeddings")
+except Exception as e:
+    print(f"❌ Embedding error: {type(e).__name__}: {e}")
+    raise
 
     # ── Ensure collection exists ──────────────────────────
     init_qdrant(target_collection)
