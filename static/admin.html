@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,41 +10,39 @@
   :root {
     --bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;--border:#2e3348;
     --accent:#4a9eff;--accent2:#7c5cfc;--success:#22c55e;--danger:#ef4444;
-    --warning:#f59e0b;--text:#e8eaf0;--muted:#8b90a7;--radius:12px;
+    --text:#e8eaf0;--muted:#8b90a7;--radius:12px;
   }
   body { background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;min-height:100vh; }
 
-  /* ── Layout ── */
   .shell { display:flex;min-height:100vh; }
-  .sidebar { width:240px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;position:sticky;top:0;height:100vh; }
+  .sidebar { width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;position:sticky;top:0;height:100vh; }
   .sidebar-logo { padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:12px; }
   .sidebar-logo h1 { font-size:17px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
   .sidebar-logo p { color:var(--muted);font-size:12px;margin-top:2px; }
   .nav-item { display:flex;align-items:center;gap:10px;padding:10px 20px;color:var(--muted);cursor:pointer;transition:all .15s;font-size:13.5px;border-left:3px solid transparent; }
   .nav-item:hover { color:var(--text);background:var(--surface2); }
   .nav-item.active { color:var(--accent);background:rgba(74,158,255,.08);border-left-color:var(--accent); }
-  .nav-icon { font-size:16px;width:20px;text-align:center; }
   .main { flex:1;padding:32px;overflow-y:auto; }
 
-  /* ── Auth gate ── */
-  #auth-gate { display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg); }
+  /* Auth */
+  #auth-gate { display:flex;align-items:center;justify-content:center;min-height:100vh; }
   .auth-card { background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:40px;width:400px;text-align:center; }
   .auth-card h2 { font-size:22px;margin-bottom:6px; }
   .auth-card p  { color:var(--muted);margin-bottom:28px;font-size:13px; }
 
-  /* ── Pages ── */
+  /* Pages */
   .page { display:none; }
   .page.active { display:block; }
   .page-header { margin-bottom:28px; }
   .page-header h2 { font-size:22px;font-weight:700; }
-  .page-header p  { color:var(--muted);margin-top:4px;font-size:13px; }
+  .page-header p { color:var(--muted);margin-top:4px;font-size:13px; }
   .page-header-row { display:flex;align-items:center;justify-content:space-between;margin-bottom:28px; }
 
-  /* ── Cards ── */
+  /* Cards */
   .card { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px; }
   .card-title { font-size:15px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:8px; }
 
-  /* ── Stats ── */
+  /* Stats */
   .stats-row { display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px; }
   .stat-card { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px; }
   .stat-label { color:var(--muted);font-size:12px;margin-bottom:6px; }
@@ -52,7 +51,7 @@
   .stat-value.success { color:var(--success); }
   .stat-value.purple  { color:var(--accent2); }
 
-  /* ── Forms ── */
+  /* Forms */
   .form-grid { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
   .form-group { display:flex;flex-direction:column;gap:6px; }
   .form-group.full { grid-column:1/-1; }
@@ -66,7 +65,7 @@
   textarea { resize:vertical;min-height:80px; }
   input[type=color] { padding:4px 8px;height:42px;cursor:pointer; }
 
-  /* ── Buttons ── */
+  /* Buttons */
   .btn { display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;border:none;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s,transform .1s;font-family:inherit; }
   .btn:hover { opacity:.88; }
   .btn:active { transform:scale(.97); }
@@ -77,7 +76,23 @@
   .btn-ghost   { background:var(--surface2);color:var(--text);border:1px solid var(--border); }
   .btn-sm      { padding:6px 12px;font-size:12px; }
 
-  /* ── Widget cards ── */
+  /* Step indicator */
+  .steps { display:flex;align-items:center;gap:0;margin-bottom:28px; }
+  .step { display:flex;align-items:center;gap:8px;flex:1; }
+  .step-num {
+    width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;flex-shrink:0;
+    background:var(--surface2);color:var(--muted);border:2px solid var(--border);transition:all .3s;
+  }
+  .step.active .step-num  { background:var(--accent);color:white;border-color:var(--accent); }
+  .step.done  .step-num   { background:var(--success);color:white;border-color:var(--success); }
+  .step-label { font-size:13px;color:var(--muted);transition:color .3s; }
+  .step.active .step-label { color:var(--text);font-weight:600; }
+  .step.done  .step-label  { color:var(--success); }
+  .step-line { height:2px;background:var(--border);flex:1;margin:0 8px;transition:background .3s; }
+  .step-line.done { background:var(--success); }
+
+  /* Widget cards */
   .widget-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px; }
   .widget-card { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .15s; }
   .widget-card:hover { border-color:var(--accent); }
@@ -94,26 +109,27 @@
   .badge-purple { background:rgba(124,92,252,.15);color:var(--accent2); }
   .widget-card-actions { display:flex;gap:8px; }
 
-  /* ── Code block ── */
-  .code-block { background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 14px 14px 14px;font-family:'Courier New',monospace;font-size:12px;color:#a8d8ff;word-break:break-all;line-height:1.6;position:relative;white-space:pre-wrap; }
-  .copy-btn { position:absolute;top:8px;right:8px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;transition:all .15s; }
-  .copy-btn:hover { color:var(--text);border-color:var(--accent); }
-
-  /* ── Upload area ── */
-  .upload-area { border:2px dashed var(--border);border-radius:var(--radius);padding:32px;text-align:center;cursor:pointer;transition:all .2s; }
+  /* Upload zone */
+  .upload-area { border:2px dashed var(--border);border-radius:var(--radius);padding:28px;text-align:center;cursor:pointer;transition:all .2s; }
   .upload-area:hover,.upload-area.drag-over { border-color:var(--accent);background:rgba(74,158,255,.05); }
-  .upload-icon { font-size:36px;margin-bottom:10px; }
   .upload-area p { color:var(--muted);font-size:13px; }
   .upload-area strong { color:var(--text); }
 
-  /* ── Toast ── */
-  #toast-container { position:fixed;top:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:8px; }
-  .toast { padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;animation:toast-in .25s ease;max-width:320px;box-shadow:0 4px 16px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px; }
-  .toast-success { background:#166534;color:#bbf7d0;border:1px solid #22c55e44; }
-  .toast-error   { background:#7f1d1d;color:#fecaca;border:1px solid #ef444444; }
-  .toast-info    { background:#1e3a5f;color:#bfdbfe;border:1px solid #4a9eff44; }
+  /* PDF list */
+  .pdf-item { display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg);border-radius:8px;margin-top:8px;font-size:13px; }
+  .pdf-item .fname { flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+  .pdf-item .fsize { color:var(--muted);font-size:11px;flex-shrink:0; }
+  .pdf-item .fstat { flex-shrink:0; }
 
-  /* ── Modal ── */
+  /* Code block */
+  .code-block { background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:12px;color:#a8d8ff;word-break:break-all;line-height:1.6;position:relative;white-space:pre-wrap; }
+  .copy-btn { position:absolute;top:8px;right:8px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;transition:all .15s; }
+  .copy-btn:hover { color:var(--text);border-color:var(--accent); }
+
+  /* Key box */
+  .key-box { background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-family:monospace;font-size:13px;color:#f59e0b;word-break:break-all; }
+
+  /* Modal */
   .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px); }
   .modal { background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:560px;max-width:calc(100vw - 32px);max-height:85vh;overflow-y:auto; }
   .modal-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:24px; }
@@ -122,23 +138,27 @@
   .modal-close:hover { color:var(--text); }
   .modal-footer { display:flex;justify-content:flex-end;gap:10px;margin-top:24px; }
 
+  /* Toast */
+  #toast-container { position:fixed;top:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:8px; }
+  .toast { padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;animation:toast-in .25s ease;max-width:320px;box-shadow:0 4px 16px rgba(0,0,0,.3); }
+  .toast-success { background:#166534;color:#bbf7d0;border:1px solid #22c55e44; }
+  .toast-error   { background:#7f1d1d;color:#fecaca;border:1px solid #ef444444; }
+  .toast-info    { background:#1e3a5f;color:#bfdbfe;border:1px solid #4a9eff44; }
+
   .divider { height:1px;background:var(--border);margin:20px 0; }
-  .spinner { width:20px;height:20px;border:2px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:inline-block; }
+  .spinner { width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:inline-block; }
   .empty-state { text-align:center;padding:60px 20px;color:var(--muted); }
   .empty-state .empty-icon { font-size:48px;margin-bottom:12px; }
   .empty-state h3 { color:var(--text);font-size:16px;margin-bottom:6px; }
 
-  /* ── API key display ── */
-  .key-box { background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-family:monospace;font-size:13px;color:var(--warning);word-break:break-all; }
-
   @keyframes spin { to { transform:rotate(360deg); } }
-  @keyframes toast-in { from { opacity:0;transform:translateX(20px); } to { opacity:1;transform:translateX(0); } }
+  @keyframes toast-in { from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);} }
   @media(max-width:768px) { .sidebar{display:none;} .main{padding:20px;} .form-grid{grid-template-columns:1fr;} .stats-row{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
 
-<!-- ── Auth Gate ────────────────────────────────────────── -->
+<!-- Auth Gate -->
 <div id="auth-gate">
   <div class="auth-card">
     <div style="font-size:40px;margin-bottom:16px">🤖</div>
@@ -157,17 +177,16 @@
   </div>
 </div>
 
-<!-- ── Main App ──────────────────────────────────────────── -->
+<!-- Main App -->
 <div id="app" class="shell" style="display:none">
   <div class="sidebar">
     <div class="sidebar-logo">
       <h1>AI Widget</h1>
       <p>Admin Dashboard</p>
     </div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
-    <div class="nav-item" onclick="showPage('widgets',this)"><span class="nav-icon">🧩</span> Widgets</div>
-    <div class="nav-item" onclick="showPage('create',this)"><span class="nav-icon">➕</span> Create Widget</div>
-    <div class="nav-item" onclick="showPage('upload',this)"><span class="nav-icon">📄</span> Upload PDF</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><span>📊</span> Dashboard</div>
+    <div class="nav-item" onclick="showPage('widgets',this)"><span>🧩</span> Widgets</div>
+    <div class="nav-item" onclick="showPage('create',this)"><span>➕</span> Create Widget</div>
     <div style="margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)">
       <div style="color:var(--muted);font-size:11px;margin-bottom:6px">CONNECTED TO</div>
       <div style="font-size:12px;font-family:monospace;color:var(--accent);word-break:break-all" id="sidebar-url"></div>
@@ -187,24 +206,44 @@
       </div>
       <div class="card">
         <div class="card-title">🧩 Recent Widgets</div>
-        <div id="recent-list"><div class="empty-state"><div class="spinner"></div></div></div>
+        <div id="recent-list"><div class="empty-state"><div class="spinner" style="border-top-color:var(--accent)"></div></div></div>
       </div>
     </div>
 
-    <!-- Widgets -->
+    <!-- Widgets List -->
     <div id="page-widgets" class="page">
       <div class="page-header-row">
-        <div><h2 style="font-size:22px;font-weight:700">All Widgets</h2><p style="color:var(--muted);margin-top:4px;font-size:13px">Manage your deployed widgets</p></div>
+        <div><h2 style="font-size:22px;font-weight:700">All Widgets</h2><p style="color:var(--muted);margin-top:4px;font-size:13px">Manage your deployed AI widgets</p></div>
         <button class="btn btn-primary" onclick="showPage('create',document.querySelectorAll('.nav-item')[2])">➕ New Widget</button>
       </div>
-      <div id="widgets-grid" class="widget-grid"><div class="empty-state"><div class="spinner"></div></div></div>
+      <div id="widgets-grid" class="widget-grid"></div>
     </div>
 
-    <!-- Create -->
+    <!-- Create Widget (3-step flow) -->
     <div id="page-create" class="page">
-      <div class="page-header"><h2>Create Widget</h2><p>Set up a new AI chat widget</p></div>
-      <div class="card">
-        <div class="card-title">⚙️ Widget Configuration</div>
+      <div class="page-header"><h2>Create Widget</h2><p>Set up your AI assistant in 3 steps</p></div>
+
+      <!-- Step indicator -->
+      <div class="steps">
+        <div class="step active" id="step-1">
+          <div class="step-num">1</div>
+          <div class="step-label">Configure</div>
+        </div>
+        <div class="step-line" id="line-1"></div>
+        <div class="step" id="step-2">
+          <div class="step-num">2</div>
+          <div class="step-label">Upload PDFs</div>
+        </div>
+        <div class="step-line" id="line-2"></div>
+        <div class="step" id="step-3">
+          <div class="step-num">3</div>
+          <div class="step-label">Get Embed Code</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Configure -->
+      <div id="s1" class="card">
+        <div class="card-title">⚙️ Step 1 — Widget Configuration</div>
         <div class="form-grid">
           <div class="form-group"><label>Widget Name *</label><input type="text" id="c-name" placeholder="e.g. Hospital Assistant"/></div>
           <div class="form-group"><label>Chat Title</label><input type="text" id="c-title" placeholder="AI Assistant"/></div>
@@ -220,60 +259,55 @@
           <div class="form-group full"><label>Welcome Message</label><input type="text" id="c-welcome" placeholder="Hi! How can I help you today?"/></div>
           <div class="form-group full"><label>Input Placeholder</label><input type="text" id="c-placeholder" placeholder="Ask me anything..."/></div>
           <div class="form-group full"><label>Business Context *</label>
-            <textarea id="c-context" rows="4" placeholder="Describe what this assistant does. e.g. You are a helpful HR assistant for Acme Corp. You help employees with leave policies, attendance, and conduct guidelines."></textarea>
+            <textarea id="c-context" rows="4" placeholder="Describe what this assistant does. e.g. You are a helpful HR assistant for Acme Corp. Answer questions about leave policies, attendance, and company guidelines."></textarea>
           </div>
         </div>
-        <div style="margin-top:20px"><button class="btn btn-primary" onclick="createWidget()" id="create-btn">➕ Create Widget</button></div>
+        <div style="margin-top:20px">
+          <button class="btn btn-primary" onclick="createWidget()" id="create-btn">Create Widget & Continue →</button>
+        </div>
       </div>
 
-      <div id="create-result" style="display:none">
-        <div class="card" style="border-color:var(--success)">
-          <div class="card-title" style="color:var(--success)">✅ Widget Created Successfully!</div>
-          <div class="form-grid" style="margin-bottom:16px">
-            <div class="form-group"><label>Widget ID</label><input type="text" id="result-widget-id" readonly/></div>
-            <div class="form-group"><label>API Key — save this!</label><input type="text" id="result-api-key" readonly/></div>
-          </div>
-          <div class="divider"></div>
-          <div class="card-title">📋 Embed Code</div>
-          <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Paste this before the &lt;/body&gt; tag on your website:</p>
-          <div class="code-block" id="result-embed-code"><button class="copy-btn" onclick="copyEmbed()">Copy</button></div>
-          <div class="divider"></div>
-          <p style="color:var(--muted);font-size:13px">📄 Go to <b>Upload PDF</b> to add knowledge documents to this widget.</p>
-        </div>
-      </div>
-    </div>
+      <!-- Step 2: Upload PDFs (hidden until widget created) -->
+      <div id="s2" class="card" style="display:none">
+        <div class="card-title">📄 Step 2 — Upload Knowledge PDFs</div>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Upload PDF documents that your widget will use to answer questions. You can add more PDFs later from the widget details.</p>
 
-    <!-- Upload -->
-    <div id="page-upload" class="page">
-      <div class="page-header"><h2>Upload PDF</h2><p>Add knowledge documents to a widget</p></div>
-      <div class="card">
-        <div class="card-title">🎯 Select Widget</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Widget</label>
-            <select id="upload-widget-select"><option value="">— Select a widget —</option></select>
-          </div>
-          <div class="form-group" id="upload-key-group" style="display:none">
-            <label>Widget API Key</label>
-            <input type="password" id="upload-api-key" placeholder="Paste widget API key..."/>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">📄 Upload PDF</div>
         <div class="upload-area" id="upload-area" onclick="document.getElementById('pdf-input').click()">
-          <div class="upload-icon">📂</div>
-          <p><strong>Click to browse</strong> or drag and drop</p>
-          <p style="margin-top:4px">PDF files only</p>
+          <div style="font-size:32px;margin-bottom:8px">📂</div>
+          <p><strong>Click to browse</strong> or drag and drop PDFs here</p>
+          <p style="margin-top:4px;font-size:12px">You can select multiple PDFs at once</p>
         </div>
-        <input type="file" id="pdf-input" accept=".pdf" style="display:none" onchange="handleFileSelect(event)"/>
-        <div id="upload-progress" style="display:none;margin-top:16px">
-          <div style="display:flex;align-items:center;gap:10px;color:var(--muted)">
-            <div class="spinner"></div>
-            <span id="upload-status">Processing PDF...</span>
-          </div>
+        <input type="file" id="pdf-input" accept=".pdf" multiple style="display:none" onchange="handleFiles(event)"/>
+
+        <div id="pdf-queue" style="margin-top:12px"></div>
+
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+          <button class="btn btn-success" id="upload-btn" onclick="uploadAllPDFs()" style="display:none">⚡ Process All PDFs</button>
+          <button class="btn btn-ghost" onclick="skipToStep3()">Skip → Get Embed Code</button>
         </div>
-        <div id="upload-files-list" style="margin-top:16px"></div>
+
+        <div id="upload-progress-area" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Step 3: Embed Code (hidden until ready) -->
+      <div id="s3" class="card" style="display:none;border-color:var(--success)">
+        <div class="card-title" style="color:var(--success)">✅ Step 3 — Your Widget is Ready!</div>
+
+        <div class="form-grid" style="margin-bottom:16px">
+          <div class="form-group"><label>Widget ID</label><input type="text" id="result-wid" readonly/></div>
+          <div class="form-group"><label>API Key — save this!</label><input type="text" id="result-key" readonly/></div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="card-title">📋 Embed Code</div>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Paste this before the &lt;/body&gt; tag on your website:</p>
+        <div class="code-block" id="result-embed"><button class="copy-btn" onclick="copyEmbed()">Copy</button></div>
+
+        <div class="divider"></div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-primary" onclick="resetCreate()">➕ Create Another Widget</button>
+          <button class="btn btn-ghost" onclick="showPage('widgets',document.querySelectorAll('.nav-item')[1])">View All Widgets</button>
+        </div>
       </div>
     </div>
 
@@ -291,7 +325,7 @@
       <div id="modal-body"></div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Close</button>
-        <button class="btn btn-danger" id="modal-delete-btn">🗑 Delete Widget</button>
+        <button class="btn btn-danger" id="modal-del-btn">🗑 Delete Widget</button>
       </div>
     </div>
   </div>
@@ -300,14 +334,15 @@
 <div id="toast-container"></div>
 
 <script>
-let MASTER_KEY = '', BASE_URL = '', widgetsData = [];
+let MASTER_KEY='', BASE_URL='', widgetsData=[];
+let createdWidget = null;  // holds the newly created widget during 3-step flow
+let pdfQueue      = [];    // files waiting to be uploaded
 
 // ── Auth ──────────────────────────────────────────────────
 async function login() {
   const key = document.getElementById('master-key-input').value.trim();
   const url = document.getElementById('api-url-input').value.trim().replace(/\/$/, '');
-  if (!key || !url) { setAuthError('Please enter both fields.'); return; }
-
+  if (!key || !url) { setErr('Please enter both fields.'); return; }
   try {
     const r = await fetch(url + '/admin/widgets', { headers: { 'x-api-key': key } });
     if (r.ok) {
@@ -315,34 +350,32 @@ async function login() {
       localStorage.setItem('aiw_key', key);
       localStorage.setItem('aiw_url', url);
       bootApp();
-    } else {
-      setAuthError('Invalid master API key or URL.');
-    }
-  } catch {
-    setAuthError('Could not reach the API. Check the URL.');
-  }
+    } else { setErr('Invalid master API key or URL.'); }
+  } catch { setErr('Could not reach the API. Check the URL.'); }
 }
-
-function setAuthError(msg) { document.getElementById('auth-error').textContent = msg; }
-
-function logout() {
-  localStorage.removeItem('aiw_key');
-  localStorage.removeItem('aiw_url');
-  location.reload();
-}
+function setErr(m) { document.getElementById('auth-error').textContent = m; }
+function logout() { localStorage.removeItem('aiw_key'); localStorage.removeItem('aiw_url'); location.reload(); }
 
 window.addEventListener('DOMContentLoaded', () => {
-  const k = localStorage.getItem('aiw_key');
-  const u = localStorage.getItem('aiw_url');
+  const k = localStorage.getItem('aiw_key'), u = localStorage.getItem('aiw_url');
   if (k && u) { MASTER_KEY = k; BASE_URL = u; bootApp(); }
+
+  // drag and drop on upload area
+  const area = document.getElementById('upload-area');
+  area.addEventListener('dragover',  e => { e.preventDefault(); area.classList.add('drag-over'); });
+  area.addEventListener('dragleave', ()  => area.classList.remove('drag-over'));
+  area.addEventListener('drop', e => {
+    e.preventDefault(); area.classList.remove('drag-over');
+    const files = [...e.dataTransfer.files].filter(f => f.name.endsWith('.pdf'));
+    addToQueue(files);
+  });
 });
 
 function bootApp() {
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   document.getElementById('sidebar-url').textContent = BASE_URL.replace('https://', '');
-  loadDashboard();
-  loadWidgets();
+  loadDashboard(); loadWidgets();
 }
 
 // ── Navigation ─────────────────────────────────────────────
@@ -351,7 +384,6 @@ function showPage(name, btn) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   if (btn) btn.classList.add('active');
-  if (name === 'upload') populateUploadSelect();
 }
 
 // ── API ────────────────────────────────────────────────────
@@ -363,7 +395,7 @@ async function apiFetch(path, opts = {}) {
 }
 
 // ── Toast ──────────────────────────────────────────────────
-function showToast(msg, type = 'info') {
+function toast(msg, type = 'info') {
   const el = document.createElement('div');
   el.className = 'toast toast-' + type;
   el.textContent = (type==='success'?'✅ ':type==='error'?'❌ ':'ℹ️ ') + msg;
@@ -379,23 +411,21 @@ async function loadDashboard() {
   } catch { document.getElementById('stat-status').textContent = '🔴 Down'; }
 
   try {
-    const r    = await apiFetch('/admin/widgets');
-    const data = await r.json();
+    const data = await (await apiFetch('/admin/widgets')).json();
     widgetsData = data;
     document.getElementById('stat-total').textContent  = data.length;
     document.getElementById('stat-active').textContent = data.length;
-
-    const recentEl = document.getElementById('recent-list');
+    const el = document.getElementById('recent-list');
     if (!data.length) {
-      recentEl.innerHTML = `<div class="empty-state"><div class="empty-icon">🧩</div><h3>No widgets yet</h3><p>Create your first widget to get started</p></div>`;
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🧩</div><h3>No widgets yet</h3><p>Create your first widget to get started</p></div>`;
       return;
     }
-    recentEl.innerHTML = data.slice(-3).reverse().map(w => `
+    el.innerHTML = data.slice(-3).reverse().map(w => `
       <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
         <div style="width:32px;height:32px;border-radius:50%;background:${w.config?.color||'#4a9eff'};flex-shrink:0"></div>
         <div style="flex:1">
           <div style="font-weight:600">${esc(w.name)}</div>
-          <div style="color:var(--muted);font-size:12px;font-family:monospace">${w.widget_id}</div>
+          <div style="color:var(--muted);font-size:12px;font-family:monospace">${w.widget_id} · ${w.pdfs?.length||0} PDFs</div>
         </div>
         <button class="btn btn-ghost btn-sm" onclick="openModal('${w.widget_id}')">View</button>
       </div>`).join('');
@@ -405,93 +435,43 @@ async function loadDashboard() {
 // ── Widgets list ───────────────────────────────────────────
 async function loadWidgets() {
   try {
-    const r    = await apiFetch('/admin/widgets');
-    const data = await r.json();
+    const data = await (await apiFetch('/admin/widgets')).json();
     widgetsData = data;
-    renderGrid(data);
-  } catch { document.getElementById('widgets-grid').innerHTML = '<p style="color:var(--danger)">Failed to load.</p>'; }
-}
-
-function renderGrid(data) {
-  const el = document.getElementById('widgets-grid');
-  if (!data.length) {
-    el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🧩</div><h3>No widgets yet</h3><p>Create your first widget to get started</p><button class="btn btn-primary" style="margin-top:16px" onclick="showPage('create',document.querySelectorAll('.nav-item')[2])">➕ Create Widget</button></div>`;
-    return;
-  }
-  el.innerHTML = data.map(w => `
-    <div class="widget-card">
-      <div class="widget-card-header">
-        <div class="widget-color-dot" style="background:${w.config?.color||'#4a9eff'}">💬</div>
-        <div class="widget-card-info">
-          <div class="widget-card-name">${esc(w.name)}</div>
-          <div class="widget-card-id">${w.widget_id}</div>
+    const el = document.getElementById('widgets-grid');
+    if (!data.length) {
+      el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🧩</div><h3>No widgets yet</h3><button class="btn btn-primary" style="margin-top:16px" onclick="showPage('create',document.querySelectorAll('.nav-item')[2])">➕ Create Widget</button></div>`;
+      return;
+    }
+    el.innerHTML = data.map(w => `
+      <div class="widget-card">
+        <div class="widget-card-header">
+          <div class="widget-color-dot" style="background:${w.config?.color||'#4a9eff'}">💬</div>
+          <div class="widget-card-info">
+            <div class="widget-card-name">${esc(w.name)}</div>
+            <div class="widget-card-id">${w.widget_id}</div>
+          </div>
         </div>
-      </div>
-      <div class="widget-card-body">
-        <div class="widget-card-meta">
-          <span class="badge badge-blue">🌐 ${esc(w.config?.language||'English')}</span>
-          <span class="badge badge-green">✅ Active</span>
-          <span class="badge badge-purple">📄 ${w.pdfs?.length||0} PDFs</span>
+        <div class="widget-card-body">
+          <div class="widget-card-meta">
+            <span class="badge badge-blue">🌐 ${esc(w.config?.language||'English')}</span>
+            <span class="badge badge-green">✅ Active</span>
+            <span class="badge badge-purple">📄 ${w.pdfs?.length||0} PDFs</span>
+          </div>
+          <div class="widget-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openModal('${w.widget_id}')">🔍 Details</button>
+            <button class="btn btn-danger btn-sm" onclick="delWidget('${w.widget_id}')">🗑</button>
+          </div>
         </div>
-        <div class="widget-card-actions">
-          <button class="btn btn-ghost btn-sm" onclick="openModal('${w.widget_id}')">🔍 Details</button>
-          <button class="btn btn-danger btn-sm" onclick="delWidget('${w.widget_id}')">🗑</button>
-        </div>
-      </div>
-    </div>`).join('');
+      </div>`).join('');
+  } catch { console.error('Failed to load widgets'); }
 }
 
-// ── Modal ──────────────────────────────────────────────────
-function openModal(widgetId) {
-  const w = widgetsData.find(x => x.widget_id === widgetId);
-  if (!w) return;
-
-  const color   = w.config?.color   || '#4a9eff';
-  const title   = w.config?.title   || w.name;
-  const welcome = w.config?.welcome || '';
-  const lang    = w.config?.language || 'English';
-  const ph      = w.config?.placeholder || 'Ask me anything...';
-
-  const embedCode = `<script\n  src="${BASE_URL}/static/widget.js"\n  data-widget-id="${w.widget_id}"\n  data-api="${BASE_URL}"\n  data-title="${esc(title)}"\n  data-color="${color}"\n  data-welcome="${esc(welcome)}"\n  data-language="${lang}"\n  data-placeholder="${esc(ph)}">\n<\/script>`;
-
-  document.getElementById('modal-title').textContent = w.name;
-  document.getElementById('modal-body').innerHTML = `
-    <div class="form-grid" style="margin-bottom:16px">
-      <div class="form-group"><label>Widget ID</label><input type="text" value="${w.widget_id}" readonly/></div>
-      <div class="form-group"><label>Collection</label><input type="text" value="${w.collection}" readonly/></div>
-    </div>
-    <div class="form-group" style="margin-bottom:16px">
-      <label>API Key (use this for PDF uploads)</label>
-      <div class="key-box">${w.api_key}</div>
-    </div>
-    <div class="form-group" style="margin-bottom:16px">
-      <label>PDFs uploaded</label>
-      <div style="color:var(--muted);font-size:13px">${w.pdfs?.length ? w.pdfs.join(', ') : 'None yet'}</div>
-    </div>
-    <div class="divider"></div>
-    <div style="margin-bottom:8px;font-size:13px;font-weight:600">📋 Embed Code</div>
-    <div class="code-block"><button class="copy-btn" onclick="copyModalEmbed(this)">Copy</button>${esc(embedCode)}</div>`;
-
-  document.getElementById('modal-delete-btn').onclick = () => { closeModal(); delWidget(w.widget_id); };
-  document.getElementById('widget-modal').style.display = 'flex';
-}
-
-function closeModal() { document.getElementById('widget-modal').style.display = 'none'; }
-
-function copyModalEmbed(btn) {
-  const code = btn.nextSibling.textContent;
-  navigator.clipboard.writeText(code.trim());
-  btn.textContent = 'Copied!';
-  setTimeout(() => btn.textContent = 'Copy', 2000);
-  showToast('Embed code copied!', 'success');
-}
-
-// ── Create widget ──────────────────────────────────────────
+// ── Step 1: Create widget ──────────────────────────────────
 async function createWidget() {
   const name    = document.getElementById('c-name').value.trim();
   const context = document.getElementById('c-context').value.trim();
-  if (!name)    { showToast('Widget name is required', 'error'); return; }
-  if (!context) { showToast('Business context is required', 'error'); return; }
+  if (!name)    { toast('Widget name is required', 'error'); return; }
+  if (!context) { toast('Business context is required', 'error'); return; }
 
   const btn = document.getElementById('create-btn');
   btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Creating...';
@@ -512,97 +492,219 @@ async function createWidget() {
       })
     });
     const data = await r.json();
-    if (!r.ok) throw new Error(data.detail || 'Failed');
+    if (!r.ok) throw new Error(data.detail || 'Failed to create widget');
 
-    document.getElementById('result-widget-id').value = data.widget_id;
-    document.getElementById('result-api-key').value   = data.api_key;
+    createdWidget = data;
+    toast('Widget created! Now upload PDFs.', 'success');
 
-    const embedCode = `<script\n  src="${BASE_URL}/static/widget.js"\n  data-widget-id="${data.widget_id}"\n  data-api="${BASE_URL}"\n  data-title="${esc(document.getElementById('c-title').value.trim()||'AI Assistant')}"\n  data-color="${document.getElementById('c-color').value}"\n  data-welcome="${esc(document.getElementById('c-welcome').value.trim()||'Hi! How can I help you today?')}"\n  data-language="${document.getElementById('c-language').value}"\n  data-placeholder="${esc(document.getElementById('c-placeholder').value.trim()||'Ask me anything...')}">\n<\/script>`;
+    // Mark step 1 done, activate step 2
+    setStep(1, 'done'); setStep(2, 'active');
+    document.getElementById('line-1').classList.add('done');
+    document.getElementById('s1').style.display = 'none';
+    document.getElementById('s2').style.display = 'block';
+    document.getElementById('s2').scrollIntoView({ behavior: 'smooth' });
 
-    document.getElementById('result-embed-code').innerHTML =
-      '<button class="copy-btn" onclick="copyEmbed()">Copy</button>' + esc(embedCode);
-
-    document.getElementById('create-result').style.display = 'block';
-    document.getElementById('create-result').scrollIntoView({ behavior: 'smooth' });
-
-    showToast('Widget created!', 'success');
     loadWidgets(); loadDashboard();
   } catch (e) {
-    showToast('Error: ' + e.message, 'error');
+    toast('Error: ' + e.message, 'error');
   } finally {
-    btn.disabled = false; btn.innerHTML = '➕ Create Widget';
+    btn.disabled = false; btn.innerHTML = 'Create Widget & Continue →';
   }
+}
+
+// ── Step 2: PDF upload ─────────────────────────────────────
+function handleFiles(e) {
+  addToQueue([...e.target.files].filter(f => f.name.endsWith('.pdf')));
+  document.getElementById('pdf-input').value = '';
+}
+
+function addToQueue(files) {
+  files.forEach(f => { if (!pdfQueue.find(x => x.name === f.name)) pdfQueue.push(f); });
+  renderQueue();
+}
+
+function renderQueue() {
+  const el = document.getElementById('pdf-queue');
+  el.innerHTML = pdfQueue.map((f, i) => `
+    <div class="pdf-item">
+      <span>📄</span>
+      <span class="fname">${esc(f.name)}</span>
+      <span class="fsize">${(f.size/1024).toFixed(0)} KB</span>
+      <span class="fstat" id="fstat-${i}">⏳ Pending</span>
+      <button onclick="removeFromQueue(${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px">✕</button>
+    </div>`).join('');
+  document.getElementById('upload-btn').style.display = pdfQueue.length ? 'inline-flex' : 'none';
+}
+
+function removeFromQueue(i) {
+  pdfQueue.splice(i, 1); renderQueue();
+}
+
+async function uploadAllPDFs() {
+  if (!createdWidget) { toast('No widget created yet', 'error'); return; }
+  if (!pdfQueue.length) { skipToStep3(); return; }
+
+  const btn = document.getElementById('upload-btn');
+  btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Processing...';
+
+  let ok = 0, fail = 0;
+
+  for (let i = 0; i < pdfQueue.length; i++) {
+    const f = pdfQueue[i];
+    const statEl = document.getElementById('fstat-' + i);
+    if (statEl) statEl.textContent = '⏳ Uploading...';
+
+    const fd = new FormData(); fd.append('file', f);
+    try {
+      const r = await fetch(BASE_URL + '/upload', {
+        method: 'POST',
+        headers: { 'x-api-key': createdWidget.api_key },
+        body: fd
+      });
+      const d = await r.json();
+      if (r.ok) {
+        ok++;
+        if (statEl) statEl.innerHTML = '<span style="color:var(--success)">✅ Done</span>';
+      } else {
+        fail++;
+        if (statEl) statEl.innerHTML = '<span style="color:var(--danger)">❌ Failed</span>';
+      }
+    } catch {
+      fail++;
+      if (statEl) statEl.innerHTML = '<span style="color:var(--danger)">❌ Error</span>';
+    }
+  }
+
+  btn.disabled = false; btn.innerHTML = '⚡ Process All PDFs';
+
+  if (ok)   toast(`✅ ${ok} PDF${ok>1?'s':''} uploaded`, 'success');
+  if (fail) toast(`❌ ${fail} failed`, 'error');
+
+  loadWidgets();
+  setTimeout(skipToStep3, 800);
+}
+
+function skipToStep3() {
+  setStep(2, 'done'); setStep(3, 'active');
+  document.getElementById('line-2').classList.add('done');
+  document.getElementById('s2').style.display = 'none';
+  document.getElementById('s3').style.display = 'block';
+
+  // Fill step 3
+  document.getElementById('result-wid').value = createdWidget.widget_id;
+  document.getElementById('result-key').value = createdWidget.api_key;
+
+  const cfg  = createdWidget.config || {};
+  const code = `<script\n  src="${BASE_URL}/static/widget.js"\n  data-widget-id="${createdWidget.widget_id}"\n  data-api="${BASE_URL}"\n  data-title="${esc(cfg.title||'AI Assistant')}"\n  data-color="${cfg.color||'#4a9eff'}"\n  data-welcome="${esc(cfg.welcome||'Hi!')}"\n  data-language="${cfg.language||'English'}"\n  data-placeholder="${esc(cfg.placeholder||'Ask me anything...')}">\n<\/script>`;
+
+  const embedEl = document.getElementById('result-embed');
+  embedEl.innerHTML = '<button class="copy-btn" onclick="copyEmbed()">Copy</button>' + esc(code);
+
+  document.getElementById('s3').scrollIntoView({ behavior: 'smooth' });
 }
 
 function copyEmbed() {
-  const code = document.getElementById('result-embed-code').textContent.replace('Copy', '').trim();
+  const code = document.getElementById('result-embed').textContent.replace('Copy', '').trim();
   navigator.clipboard.writeText(code);
-  showToast('Embed code copied!', 'success');
+  toast('Embed code copied!', 'success');
 }
 
-// ── Delete ─────────────────────────────────────────────────
-async function delWidget(id) {
-  if (!confirm('Delete this widget and all its documents?')) return;
-  const r = await apiFetch('/admin/widgets/' + id, { method: 'DELETE' });
-  if (r.ok) { showToast('Widget deleted', 'success'); loadWidgets(); loadDashboard(); }
-  else showToast('Delete failed', 'error');
+function resetCreate() {
+  // Reset all fields and steps
+  ['c-name','c-title','c-welcome','c-placeholder','c-context'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('c-color').value = '#4a9eff';
+  document.getElementById('c-language').value = 'English';
+  pdfQueue = []; createdWidget = null;
+  renderQueue();
+  setStep(1, 'active'); setStep(2, ''); setStep(3, '');
+  document.getElementById('line-1').classList.remove('done');
+  document.getElementById('line-2').classList.remove('done');
+  document.getElementById('s1').style.display = 'block';
+  document.getElementById('s2').style.display = 'none';
+  document.getElementById('s3').style.display = 'none';
+  document.getElementById('upload-btn').style.display = 'none';
+  document.getElementById('pdf-queue').innerHTML = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── Upload PDF ─────────────────────────────────────────────
-function populateUploadSelect() {
-  const sel = document.getElementById('upload-widget-select');
-  sel.innerHTML = '<option value="">— Select a widget —</option>';
-  widgetsData.forEach(w => sel.innerHTML += `<option value="${w.widget_id}" data-key="${w.api_key}">${esc(w.name)} (${w.widget_id})</option>`);
+function setStep(n, state) {
+  const el = document.getElementById('step-' + n);
+  el.className = 'step' + (state ? ' ' + state : '');
+  if (state === 'done') el.querySelector('.step-num').textContent = '✓';
+  else el.querySelector('.step-num').textContent = n;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('upload-widget-select').addEventListener('change', function() {
-    const opt = this.options[this.selectedIndex];
-    const key = opt.getAttribute('data-key') || '';
-    document.getElementById('upload-key-group').style.display = this.value ? 'block' : 'none';
-    document.getElementById('upload-api-key').value = key; // auto-fill
-  });
+// ── Modal: widget details ──────────────────────────────────
+function openModal(widgetId) {
+  const w = widgetsData.find(x => x.widget_id === widgetId);
+  if (!w) return;
+  const cfg  = w.config || {};
+  const code = `<script\n  src="${BASE_URL}/static/widget.js"\n  data-widget-id="${w.widget_id}"\n  data-api="${BASE_URL}"\n  data-title="${esc(cfg.title||'AI Assistant')}"\n  data-color="${cfg.color||'#4a9eff'}"\n  data-welcome="${esc(cfg.welcome||'Hi!')}"\n  data-language="${cfg.language||'English'}"\n  data-placeholder="${esc(cfg.placeholder||'Ask me anything...')}">\n<\/script>`;
 
-  const area = document.getElementById('upload-area');
-  area.addEventListener('dragover',  e => { e.preventDefault(); area.classList.add('drag-over'); });
-  area.addEventListener('dragleave', ()  => area.classList.remove('drag-over'));
-  area.addEventListener('drop', e => {
-    e.preventDefault(); area.classList.remove('drag-over');
-    if (e.dataTransfer.files[0]) uploadPDF(e.dataTransfer.files[0]);
-  });
-});
+  document.getElementById('modal-title').textContent = w.name;
+  document.getElementById('modal-body').innerHTML = `
+    <div class="form-grid" style="margin-bottom:14px">
+      <div class="form-group"><label>Widget ID</label><input type="text" value="${w.widget_id}" readonly/></div>
+      <div class="form-group"><label>Language</label><input type="text" value="${esc(cfg.language||'English')}" readonly/></div>
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>API Key (for PDF uploads)</label>
+      <div class="key-box">${w.api_key}</div>
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>PDFs uploaded (${w.pdfs?.length||0})</label>
+      <div style="color:var(--muted);font-size:13px;line-height:1.6">${w.pdfs?.length ? w.pdfs.map(p=>`📄 ${esc(p)}`).join('<br>') : 'None yet'}</div>
+    </div>
 
-function handleFileSelect(e) { if (e.target.files[0]) uploadPDF(e.target.files[0]); }
+    <!-- Add more PDFs from modal -->
+    <div style="margin-bottom:14px">
+      <label style="display:block;margin-bottom:8px">Add More PDFs</label>
+      <input type="file" id="modal-pdf-input" accept=".pdf" multiple style="display:none" onchange="modalUploadFiles('${w.widget_id}','${w.api_key}',event)"/>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('modal-pdf-input').click()">📄 Upload PDFs</button>
+      <div id="modal-upload-status" style="margin-top:8px;font-size:13px;color:var(--muted)"></div>
+    </div>
 
-async function uploadPDF(file) {
-  const widgetId = document.getElementById('upload-widget-select').value;
-  const apiKey   = document.getElementById('upload-api-key').value.trim();
-  if (!widgetId) { showToast('Select a widget first', 'error'); return; }
-  if (!apiKey)   { showToast('Enter the widget API key', 'error'); return; }
-  if (!file.name.endsWith('.pdf')) { showToast('Only PDF files supported', 'error'); return; }
+    <div class="divider"></div>
+    <div style="margin-bottom:8px;font-size:13px;font-weight:600">📋 Embed Code</div>
+    <div class="code-block"><button class="copy-btn" onclick="copyModalCode(this)">Copy</button>${esc(code)}</div>`;
 
-  document.getElementById('upload-progress').style.display = 'block';
-  document.getElementById('upload-status').textContent = 'Uploading ' + file.name + '...';
+  document.getElementById('modal-del-btn').onclick = () => { closeModal(); delWidget(w.widget_id); };
+  document.getElementById('widget-modal').style.display = 'flex';
+}
 
-  const fd = new FormData(); fd.append('file', file);
-  try {
-    const r    = await fetch(BASE_URL + '/upload', { method: 'POST', headers: { 'x-api-key': apiKey }, body: fd });
-    const data = await r.json();
-    if (r.ok) {
-      showToast('PDF uploaded!', 'success');
-      document.getElementById('upload-files-list').innerHTML +=
-        `<div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border)">
-          <span style="color:var(--success)">✅</span>
-          <span>${esc(file.name)}</span>
-          <span style="color:var(--muted);font-size:12px;margin-left:auto">${(file.size/1024).toFixed(1)} KB</span>
-        </div>`;
-      loadWidgets();
-    } else { showToast(data.detail || 'Upload failed', 'error'); }
-  } catch (e) { showToast('Upload failed: ' + e.message, 'error'); }
-  finally {
-    document.getElementById('upload-progress').style.display = 'none';
-    document.getElementById('pdf-input').value = '';
+async function modalUploadFiles(widgetId, apiKey, e) {
+  const files  = [...e.target.files].filter(f => f.name.endsWith('.pdf'));
+  const status = document.getElementById('modal-upload-status');
+  status.textContent = `Uploading ${files.length} file(s)...`;
+  let ok = 0;
+  for (const f of files) {
+    const fd = new FormData(); fd.append('file', f);
+    try {
+      const r = await fetch(BASE_URL + '/upload', { method: 'POST', headers: { 'x-api-key': apiKey }, body: fd });
+      if (r.ok) ok++;
+    } catch {}
   }
+  status.innerHTML = `<span style="color:var(--success)">✅ ${ok} file(s) uploaded</span>`;
+  toast(`${ok} PDF(s) added`, 'success');
+  loadWidgets(); loadDashboard();
+}
+
+function copyModalCode(btn) {
+  const code = btn.nextSibling.textContent;
+  navigator.clipboard.writeText(code.trim());
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy', 2000);
+  toast('Copied!', 'success');
+}
+
+function closeModal() { document.getElementById('widget-modal').style.display = 'none'; }
+
+// ── Delete widget ──────────────────────────────────────────
+async function delWidget(id) {
+  if (!confirm('Delete this widget and all its PDF documents? This cannot be undone.')) return;
+  const r = await apiFetch('/admin/widgets/' + id, { method: 'DELETE' });
+  if (r.ok) { toast('Widget deleted', 'success'); loadWidgets(); loadDashboard(); }
+  else toast('Delete failed', 'error');
 }
 
 // ── Helpers ────────────────────────────────────────────────

@@ -18,7 +18,3 @@ langchain-classic
 pyyaml
 
 
-# Auth dependencies
-python-jose[cryptography]
-passlib[bcrypt]
-

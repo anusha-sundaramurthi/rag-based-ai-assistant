@@ -270,6 +270,7 @@ def generate_answer(
     collection_name:  str  = None,
     business_context: str  = ""      
 ) -> dict:
+    context_block = f"\nBUSINESS CONTEXT:\n{business_context}\n" if business_context else ""
     """RAG pipeline with language support"""
     
     memory       = get_memory(session_id)
@@ -344,7 +345,7 @@ def generate_answer(
     # ── Path B: PDF retrieval ─────────────────────────────
     docs    = retrieve_docs(rewritten_query)
     context = "\n".join(docs)
-    context_block = f"\nBUSINESS CONTEXT:\n{business_context}\n" if business_context else ""
+    
 
     if not context.strip():
         print(f"[Generator] No PDF context for: '{original_query}' → asking user")
