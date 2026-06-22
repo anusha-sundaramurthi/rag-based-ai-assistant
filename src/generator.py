@@ -46,6 +46,34 @@ def get_language_instruction(language: str) -> str:
         f"Even if the question is in a different language, answer in {language}."
     )
 
+def detect_language(text: str) -> str:
+    """
+    Auto-detects the language the user typed in.
+    Returns a language name like 'Hindi', 'French', 'Tamil', etc.
+    Falls back to 'English' on any error.
+    """
+    try:
+        response = llm.invoke([
+            {
+                "role": "system",
+                "content": (
+                    "You are a language detector. "
+                    "Reply with ONLY the English name of the language (e.g. Hindi, French, Tamil, Arabic, English). "
+                    "No explanation. No punctuation. Just the single language name."
+                )
+            },
+            {
+                "role": "user",
+                "content": f"What language is this text written in?\n\n{text}"
+            }
+        ])
+        detected = response.content.strip().split()[0]  # take first word only
+        print(f"[Generator] Detected language: '{detected}'")
+        return detected if detected else "English"
+    except Exception as e:
+        print(f"[Generator] Language detection failed: {e}")
+        return "English"
+
 # ── 4. Domain label helper ────────────────────────────────
 def _domain_label(business_context: str) -> str:
     if business_context and business_context.strip():
@@ -269,6 +297,16 @@ def generate_answer(
     # ── Translate non-English queries to English for search ──
     original_query = query
 
+    # ── Auto-detect the language the user typed in ───────────
+    # This overrides the fixed `language` config so the bot
+    # always replies in whatever language the user typed,
+    # regardless of the widget's data-language setting.
+    detected_lang = detect_language(original_query)
+    # Only override if detection returned something meaningful
+    if detected_lang and detected_lang.lower() != "unknown":
+        language = detected_lang
+
+    # ── Translate to English for vector search ───────────────
     if not all(ord(char) < 128 for char in query):
         print(f"[Generator] Non-English query detected: '{query}'")
         print(f"[Generator] Translating to English for search...")
