@@ -277,7 +277,7 @@ def save_results(results: list[dict], averages: dict):
 async def main():
     print("\n🧭 AI Travel Assistant — RAGAS Evaluation")
     print("   LLM judge : Groq llama-3.3-70b (free)")
-    print("   Embeddings: OpenAI text-embedding-ada-002")
+    print("   Embeddings: OpenAI text-embedding-3-small")
     print("   Test cases:", len(test_cases))
 
     # Step 1 — collect RAG outputs
