@@ -116,25 +116,26 @@
     #aiw-xbtn:hover { background:rgba(255,255,255,.3); }
 
     #aiw-msgs {
-      flex:1; overflow-y:auto; padding:16px;
+      flex:1; overflow-y:auto; overflow-x:hidden; padding:16px;
       display:flex; flex-direction:column; gap:12px; scroll-behavior:smooth;
+      width:100%;
     }
     #aiw-msgs::-webkit-scrollbar { width:4px; }
     #aiw-msgs::-webkit-scrollbar-thumb { background:#e0e0e0; border-radius:4px; }
 
-    .aiw-msg { display:flex; flex-direction:column; max-width:85%; animation:aiw-fi .2s ease; }
+    .aiw-msg { display:flex; flex-direction:column; max-width:85%; min-width:0; animation:aiw-fi .2s ease; }
     .aiw-bot  { align-self:flex-start; }
     .aiw-user { align-self:flex-end; }
 
     .aiw-bub {
       padding:10px 14px; border-radius:16px;
       font-size:14px; line-height:1.55; color:#1a1a1a;
-      /* FIX: prevent text overflow — wrap long words and break URLs */
       word-wrap:break-word;
       overflow-wrap:break-word;
       word-break:break-word;
       white-space:pre-wrap;
       min-width:0;
+      width:100%;
     }
     .aiw-bot  .aiw-bub { background:#f4f4f5; border-bottom-left-radius:4px; }
     .aiw-user .aiw-bub { background:${COLOR}; color:white; border-bottom-right-radius:4px; }
