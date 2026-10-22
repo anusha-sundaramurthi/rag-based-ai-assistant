@@ -10,7 +10,7 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C)
 ![Qdrant](https://img.shields.io/badge/Qdrant-DC244C)
-![NVIDIA NIM](https://img.shields.io/badge/NVIDIA-NIM-76B900?logo=nvidia&logoColor=white)
+
 ![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?logo=render&logoColor=white)
 
 </div>
@@ -92,7 +92,7 @@ rag-based-ai-assistant/
 ### Prerequisites
 
 - Python **3.11**
-- An **NVIDIA NIM** API key
+- An **Groq** API key
 - A **Qdrant** instance (Qdrant Cloud or a local Docker container)
 
 ### 1. Clone the repository
@@ -115,8 +115,8 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```env
-# NVIDIA NIM
-NVIDIA_API_KEY=your_nvidia_api_key
+# Groq
+GROQ_API_KEY=your_groq_api_key
 
 # Qdrant
 QDRANT_URL=https://your-qdrant-host:6333
